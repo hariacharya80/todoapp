@@ -6,7 +6,7 @@ import { AuthContext } from "../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const { darkTheme, changeTheme } = useContext(ThemeContext);
+  const { darkTheme } = useContext(ThemeContext);
   const { user } = useContext(AuthContext);
   const themeStyle = {
     lightBody:

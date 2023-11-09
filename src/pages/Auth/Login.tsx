@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function Login() {
-  const [wrongPasswordCount, setWrongPasswordCount] = useState(3);
+  const [wrongPasswordCount] = useState(3);
   return (
     <section className="bg-slate-200 h-screen w-screen absolute top-0 left-0 flex justify-center">
       <div className="p-8 bg-white h-fit mt-16 text-center py-8 w-1/3 min-w-fit">
