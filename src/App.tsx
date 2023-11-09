@@ -1,29 +1,37 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Auth/Login";
+import Signup from "./pages/Auth/Signup";
+import Reset from "./pages/Auth/Reset";
 import { useContext } from "react";
-import { ThemeContext } from "./hooks/ThemeProvider";
+import { AuthContext } from "./hooks/AuthProvider";
+import AlreadySignedIn from "./pages/messages/AlreadySignedIn";
+import Dashboard from "./pages/Secure/Dashboard";
+import NotFound from "./pages/messages/NotFound";
 
 function App() {
-  const { darkTheme, changeTheme } = useContext(ThemeContext);
-  const lightClass = "p-4 w-screen h-screen bg-slate-100 absolute left-0 top-0";
-  const darkClass =
-    "p-4 w-screen h-screen bg-slate-800 text-white absolute left-0 top-0";
+  const { user } = useContext(AuthContext);
   return (
-    <>
-      <div className={darkTheme ? darkClass : lightClass}>
-        <h1>
-          {darkTheme ? "Dark Theme is Enabled" : "Dark theme is disabled."}
-        </h1>
-        <button
-          className={
-            darkTheme
-              ? "border-2 rounded px-4 py-1 bg-slate-900 border-slate-950 text-white"
-              : "border-2 rounded px-4 py-1 bg-slate-200"
-          }
-          onClick={() => changeTheme()}
-        >
-          Toggle Theme
-        </button>
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {!user.signedIn ? (
+          <>
+            <Route path="/auth/login" element={<Login />} />
+            <Route path="/auth/signup" element={<Signup />} />
+            <Route path="/auth/reset" element={<Reset />} />
+          </>
+        ) : (
+          <>
+            <Route path="/auth/login" element={<AlreadySignedIn />} />
+            <Route path="/auth/signup" element={<AlreadySignedIn />} />
+            <Route path="/auth/reset" element={<AlreadySignedIn />} />
+          </>
+        )}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
