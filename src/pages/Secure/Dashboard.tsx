@@ -1,5 +1,15 @@
+import { useContext } from "react";
+import { AuthContext } from "../../hooks/AuthProvider";
+
 function Dashboard() {
-  return <div>Dashboard</div>;
+  const { logout } = useContext(AuthContext);
+  return (
+    <div>
+      {" "}
+      Dashboard
+      <button onClick={() => logout()}>logout</button>
+    </div>
+  );
 }
 
 export default Dashboard;

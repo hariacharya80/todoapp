@@ -8,27 +8,35 @@ import { AuthContext } from "./hooks/AuthProvider";
 import AlreadySignedIn from "./pages/messages/AlreadySignedIn";
 import Dashboard from "./pages/Secure/Dashboard";
 import NotFound from "./pages/messages/NotFound";
+import LoginRequired from "./pages/messages/LoginRequired";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const { user } = useContext(AuthContext);
+  // console.log("The user signin status in App.tsx is: " + user.signedIn);
   return (
     <BrowserRouter>
+      <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
-        {!user.signedIn ? (
-          <>
-            <Route path="/auth/login" element={<Login />} />
-            <Route path="/auth/signup" element={<Signup />} />
-            <Route path="/auth/reset" element={<Reset />} />
-          </>
-        ) : (
-          <>
-            <Route path="/auth/login" element={<AlreadySignedIn />} />
-            <Route path="/auth/signup" element={<AlreadySignedIn />} />
-            <Route path="/auth/reset" element={<AlreadySignedIn />} />
-          </>
-        )}
-        <Route path="/dashboard" element={<Dashboard />} />
+
+        <Route
+          path="/auth/login"
+          element={user.signedIn ? <AlreadySignedIn /> : <Login />}
+        />
+        <Route
+          path="/auth/signup"
+          element={user.signedIn ? <AlreadySignedIn /> : <Signup />}
+        />
+        <Route
+          path="/auth/reset"
+          element={user.signedIn ? <AlreadySignedIn /> : <Reset />}
+        />
+
+        <Route
+          path="/dashboard"
+          element={user.signedIn ? <Dashboard /> : <LoginRequired />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
