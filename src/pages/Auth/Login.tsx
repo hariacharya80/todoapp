@@ -11,7 +11,12 @@ function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [longCookie, setLongCookie] = useState(true);
-  const [captcha, setCaptcha] = useState(false);
+
+  //----------------------------------------------------------------
+  // setting it to true on dev server, change back to false on deployment.
+  const [captcha, setCaptcha] = useState(true);
+  //----------------------------------------------------------------
+
   const [emailValidation, setEmailValidation] = useState({
     err: false,
     msg: "",
@@ -66,7 +71,9 @@ function Login() {
 
     //check captcha status
     if (!captcha) {
-      return toast.error("Please complete the captcha.");
+      return toast.error(
+        "Sorry, cloudflare detected you as a bot. Please try again from a known network."
+      );
     }
     //now start the login process.
     await loginHandler();

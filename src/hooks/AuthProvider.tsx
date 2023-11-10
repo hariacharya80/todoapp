@@ -53,13 +53,13 @@ function AuthProvider({ children }: AuthContextProviderProps) {
         const data = await request.json();
         setAuthState({
           signedIn: true,
-          authToken: data.token,
+          authToken: data.authToken,
         });
         localStorage.setItem(
           "_auth",
           JSON.stringify({
             signedIn: true,
-            authToken: data.token,
+            authToken: data.authToken,
           })
         );
         return true;

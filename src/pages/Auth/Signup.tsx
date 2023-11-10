@@ -64,7 +64,7 @@ function Signup() {
             );
             if (!isValid) return;
             setLoading(true);
-            const result = await signup(name, email, password);
+            const result = await signup(name, password, email);
             if (result.err) {
               toast.error(result.msg);
             } else {

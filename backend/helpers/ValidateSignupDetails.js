@@ -7,7 +7,7 @@ export default function validateSignupDetails(email, password, name) {
     return { err: true, msg: "Please enter your email address." };
   }
   if (
-    !String(email)
+    String(email)
       .toLowerCase()
       .match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
