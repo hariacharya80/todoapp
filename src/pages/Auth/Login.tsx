@@ -3,11 +3,12 @@ import ReactDOM from "react-dom";
 import LoadingDialog from "../../components/LoadingDialog";
 import { AuthContext } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [longCookie, setLongCookie] = useState(true);
   const [emailValidation, setEmailValidation] = useState({
     err: false,
@@ -75,7 +76,7 @@ function Login() {
     if (!loading) return;
     const loadingTimer = setTimeout(() => {
       setLoading(false);
-    }, 500);
+    }, 0);
     return () => {
       clearTimeout(loadingTimer);
     };
@@ -121,11 +122,14 @@ function Login() {
           <p className="text-slate-500 mt-1">
             Please login to access your information.
           </p>
+          <div className="flex justify-start text-left -mb-2">
+            <span className="text-black">Email : </span>
+          </div>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            placeholder="Email or Username"
+            placeholder="jhon.sharma@gmail.com"
             className={
               emailValidation.err
                 ? "border-2 border-rose-500 p-1 rounded-md w-full mt-3"
@@ -139,12 +143,16 @@ function Login() {
               </span>
             </div>
           )}
+
           <fieldset className="flex flex-col mt-2  gap-2">
+            <div className="flex justify-start text-left -mb-2">
+              <span className="text-black">Password: </span>
+            </div>
             <input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
-              placeholder="Password"
+              placeholder="*******"
               className={
                 passwordValidation.err
                   ? "border-2 border-rose-500 p-1 rounded-md w-full -mb-1"
@@ -180,6 +188,15 @@ function Login() {
               </a>
             </div>
           </fieldset>
+
+          <Turnstile
+            siteKey="0x4AAAAAAAM7qlDAyv3bsg73"
+            className=""
+            onChange={() => {
+              console.log("captcha verified.");
+            }}
+          />
+
           <button
             // onClick={loginHandler}
             type="submit"
@@ -190,6 +207,10 @@ function Login() {
           <p className="mt-2 text-slate-500">
             New user here?{" "}
             <a
+              onClick={(e) => {
+                e.preventDefault();
+                return navigate("/auth/signup");
+              }}
               href="/auth/signup"
               className="cursor-pointer hover:text-slate-800 transition-colors duration-300"
             >

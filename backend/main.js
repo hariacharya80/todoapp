@@ -1,6 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import { config } from "dotenv";
+import AuthRouter from "./routes/AuthRoutes.js";
+
 config();
 const app = express();
 
@@ -21,6 +24,12 @@ const connectDatabase = async () => {
     console.log("Connection to database failed" + err.message);
   }
 };
-
 connectDatabase();
+
+//middlewares
+app.use(express.json());
+app.use(cors());
+
+app.use("/auth", AuthRouter);
+
 //connect to database and then start the server.
