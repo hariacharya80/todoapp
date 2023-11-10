@@ -14,7 +14,7 @@ export default async function LoginController(req, res) {
     }
 
     //check if the user exists in the database.
-    const existingUser = await UserModel.findOne({ username: username });
+    const existingUser = await UserModel.findOne({ email: username });
 
     //no user found in the database.
     if (!existingUser) {
@@ -35,10 +35,13 @@ export default async function LoginController(req, res) {
     }
 
     //if password is valid
-    const token = jwt.sign({
-      name: existingUser.name,
-      email: existingUser.email,
-    });
+    const token = jwt.sign(
+      {
+        name: existingUser.name,
+        email: existingUser.email,
+      },
+      "thisisademo"
+    );
 
     //send the token and success message
     return res.status(200).json({

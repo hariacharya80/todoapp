@@ -4,14 +4,14 @@ import bcrypt from "bcrypt";
 
 export default async function SignupController(req, res) {
   try {
-    const { email, name, password } = req.body;
+    const { email, password, name } = req.body;
     const validationResult = validateSignupDetails(email, password, name);
     if (validationResult.err) {
       return res.status(401).json({ msg: validationResult.msg });
     }
 
     //hash the plain password.
-    const hashedPassword = bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     //create a new user.
     const newUser = await userModel.create({

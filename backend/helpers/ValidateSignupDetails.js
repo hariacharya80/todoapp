@@ -1,4 +1,7 @@
 export default function validateSignupDetails(email, password, name) {
+  if (!name) {
+    return { err: true, msg: "Name of user is required." };
+  }
   //validate email
   if (!email) {
     return { err: true, msg: "Please enter your email address." };
