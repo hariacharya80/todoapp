@@ -4,12 +4,14 @@ import LoadingDialog from "../../components/LoadingDialog";
 import { AuthContext } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { Turnstile } from "@marsidev/react-turnstile";
+import toast from "react-hot-toast";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [longCookie, setLongCookie] = useState(true);
+  const [captcha, setCaptcha] = useState(false);
   const [emailValidation, setEmailValidation] = useState({
     err: false,
     msg: "",
@@ -62,6 +64,10 @@ function Login() {
     //password was validated successfully, reset the err msg
     setPasswordValidation({ err: false, msg: "" });
 
+    //check captcha status
+    if (!captcha) {
+      return toast.error("Please complete the captcha.");
+    }
     //now start the login process.
     await loginHandler();
     return;
@@ -191,9 +197,9 @@ function Login() {
 
           <Turnstile
             siteKey="0x4AAAAAAAM7qlDAyv3bsg73"
-            className=""
-            onChange={() => {
-              console.log("captcha verified.");
+            className="w-full flex justify-center"
+            onSuccess={() => {
+              setCaptcha(true);
             }}
           />
 
