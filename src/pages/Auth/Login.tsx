@@ -197,10 +197,12 @@ function Login() {
 
           <Turnstile
             siteKey="0x4AAAAAAAM7qlDAyv3bsg73"
-            className="w-full flex justify-center"
+            className="hidden"
             onSuccess={() => {
+              console.log("Success");
               setCaptcha(true);
             }}
+            onExpire={() => setCaptcha(false)}
           />
 
           <button
