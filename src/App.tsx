@@ -5,13 +5,17 @@ import Signup from "./pages/Auth/Signup";
 import Reset from "./pages/Auth/Reset";
 import { useContext } from "react";
 import { AuthContext } from "./hooks/AuthProvider";
-import AlreadySignedIn from "./pages/messages/AlreadySignedIn";
-import Dashboard from "./pages/Secure/Dashboard";
 import NotFound from "./pages/messages/NotFound";
-import LoginRequired from "./pages/messages/LoginRequired";
 import { Toaster } from "react-hot-toast";
 import SignupSuccessful from "./pages/messages/SignupSuccessful";
 import VerifyEmailToken from "./components/VerifyEmailToken";
+import DashboardLayout from "./pages/Secure/DashboardLayout";
+import Dashboard from "./pages/Secure/Dashboard";
+import Todo from "./pages/Secure/Todo";
+import Notes from "./pages/Secure/Notes";
+import Meetings from "./pages/Secure/Meetings";
+import Account from "./pages/Secure/Account";
+import About from "./pages/Secure/About";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -24,26 +28,76 @@ function App() {
 
         <Route
           path="/auth/login"
-          element={user.signedIn ? <AlreadySignedIn /> : <Login />}
+          element={
+            user.signedIn ? <Navigate to="/dashboard" replace /> : <Login />
+          }
         />
         <Route
           path="/auth/signup"
-          element={user.signedIn ? <AlreadySignedIn /> : <Signup />}
+          element={
+            user.signedIn ? <Navigate to="/dashboard" replace /> : <Signup />
+          }
         />
         <Route
           path="/auth/reset"
-          element={user.signedIn ? <AlreadySignedIn /> : <Reset />}
+          element={
+            user.signedIn ? <Navigate to="/dashboard" replace /> : <Reset />
+          }
         />
 
         <Route
           path="/dashboard"
-          element={user.signedIn ? <Dashboard /> : <LoginRequired />}
+          element={
+            <DashboardLayout>
+              <Dashboard />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/todo"
+          element={
+            <DashboardLayout>
+              <Todo />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/notes"
+          element={
+            <DashboardLayout>
+              <Notes />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/meetings"
+          element={
+            <DashboardLayout>
+              <Meetings />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <DashboardLayout>
+              <Account />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <DashboardLayout>
+              <About />
+            </DashboardLayout>
+          }
         />
         <Route
           path="/auth/signup/success"
           element={
             user.signedIn ? (
-              <Navigate to={"/dashboard"} />
+              <Navigate to="/dashboard" replace />
             ) : (
               <SignupSuccessful />
             )
@@ -51,7 +105,13 @@ function App() {
         />
         <Route
           path="/auth/verify"
-          element={user.signedIn ? <Dashboard /> : <VerifyEmailToken />}
+          element={
+            user.signedIn ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <VerifyEmailToken />
+            )
+          }
         />
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -9,6 +9,7 @@ function Reset() {
   const [loading, setLoading] = useState(false);
   const { resetPassword } = UseBackend();
   const [email, setEmail] = useState("");
+  document.title = "Reset Password | MyTodoApp";
   return (
     <>
       {loading &&
