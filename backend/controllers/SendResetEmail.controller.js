@@ -1,5 +1,5 @@
-import sendVerificationLink from "../helpers/SendVerificationLink";
-import userModel from "../models/user.model";
+import sendVerificationLink from "../helpers/SendVerificationLink.js";
+import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
 export default async function sendResetEmail(req, res) {

@@ -44,6 +44,15 @@ export default async function LoginController(req, res) {
       process.env.JWT_TOKEN.toString()
     );
 
+    //save the token to database
+    const updatedUser = await UserModel.findOneAndUpdate(
+      { email: existingUser.email },
+      {
+        token: token,
+      }
+    );
+    await updatedUser.save();
+
     //send the token and success message
     return res.status(200).json({
       loggedIn: true,
