@@ -22,18 +22,13 @@ function BottomMenuButton({
   return (
     <button
       onClick={() => {
-        if (link === "/menu") {
-          alert("Menu mobile ok");
-          setCurrentMenu(name);
-        } else {
-          setCurrentMenu(name);
-          return navigate(link);
-        }
+        setCurrentMenu(name);
+        return navigate(link);
       }}
       className={name === currentMenu ? activeClass : inactiveClass}
     >
       <span className="text-3xl">{icon}</span>
-      <span>{name}</span>
+      <span className="text-xl">{name}</span>
     </button>
   );
 }
