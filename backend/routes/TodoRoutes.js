@@ -7,7 +7,7 @@ import {
 } from "../controllers/Todo.controller.js";
 const todoRouter = express.Router();
 
-todoRouter.get("/", getTodoList);
+todoRouter.post("/get", getTodoList);
 todoRouter.post("/", addTodo);
 todoRouter.delete("/", removeTodo);
 todoRouter.put("/", updateTodo);

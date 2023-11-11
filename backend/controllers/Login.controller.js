@@ -57,6 +57,7 @@ export default async function LoginController(req, res) {
     return res.status(200).json({
       loggedIn: true,
       authToken: token,
+      user: existingUser.email,
     });
   } catch (err) {
     //return a error message.
