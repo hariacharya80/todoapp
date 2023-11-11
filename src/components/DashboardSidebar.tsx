@@ -6,7 +6,6 @@ import { FaCircleInfo } from "react-icons/fa6";
 import { LuListTodo } from "react-icons/lu";
 import { useState } from "react";
 import SidebarButton from "./buttons/SidebarButton";
-
 import LogoutDialog from "./LogoutDialog";
 function Sidebar() {
   const [showLogout, setShowLogout] = useState(false);
