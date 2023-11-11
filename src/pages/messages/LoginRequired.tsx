@@ -27,7 +27,7 @@ function LoginRequired() {
           Go to Login
         </button>
         <span className="text-slate-400">
-          Redirecting you to login in {count} seconds.
+          Redirecting you to login page in {count} seconds.
         </span>
       </div>
     </section>

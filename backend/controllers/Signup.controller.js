@@ -10,6 +10,12 @@ export default async function SignupController(req, res) {
       return res.status(401).json({ msg: validationResult.msg });
     }
 
+    const isUserAlready = await userModel.findOne({ email: email });
+    if (isUserAlready) {
+      return res.status(401).json({
+        msg: "That email is already in use, please use another email address.",
+      });
+    }
     //hash the plain password.
     const hashedPassword = await bcrypt.hash(password, 10);
 

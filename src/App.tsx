@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Auth/Login";
 import Signup from "./pages/Auth/Signup";
@@ -10,6 +10,8 @@ import Dashboard from "./pages/Secure/Dashboard";
 import NotFound from "./pages/messages/NotFound";
 import LoginRequired from "./pages/messages/LoginRequired";
 import { Toaster } from "react-hot-toast";
+import SignupSuccessful from "./pages/messages/SignupSuccessful";
+import VerifyEmailToken from "./components/VerifyEmailToken";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -36,6 +38,20 @@ function App() {
         <Route
           path="/dashboard"
           element={user.signedIn ? <Dashboard /> : <LoginRequired />}
+        />
+        <Route
+          path="/auth/signup/success"
+          element={
+            user.signedIn ? (
+              <Navigate to={"/dashboard"} />
+            ) : (
+              <SignupSuccessful />
+            )
+          }
+        />
+        <Route
+          path="/auth/verify"
+          element={user.signedIn ? <Dashboard /> : <VerifyEmailToken />}
         />
         <Route path="*" element={<NotFound />} />
       </Routes>

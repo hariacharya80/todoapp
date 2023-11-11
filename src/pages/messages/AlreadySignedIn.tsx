@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../hooks/AuthProvider";
 
 function AlreadySignedIn() {
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
   return (
     <section className="absolute w-screen h-screen bg-slate-200 flex justify-center text-center">
       <div className="w-1/3 flex flex-col gap-2 my-12">
@@ -19,7 +22,14 @@ function AlreadySignedIn() {
           >
             Continue
           </button>
-          <a href="/auth/logout" className="text-slate-600">
+          <a
+            href="/auth/logout"
+            onClick={(e) => {
+              e.preventDefault();
+              return logout();
+            }}
+            className="hover:text-slate-800 cursor-pointer text-slate-600"
+          >
             User another account
           </a>
         </div>

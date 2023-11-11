@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import LoadingDialog from "../../components/LoadingDialog";
 import { AuthContext } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import { Turnstile } from "@marsidev/react-turnstile";
-import toast from "react-hot-toast";
+// import { Turnstile } from "@marsidev/react-turnstile";
+// import toast from "react-hot-toast";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -14,7 +14,7 @@ function Login() {
 
   //----------------------------------------------------------------
   // setting it to true on dev server, change back to false on deployment.
-  const [captcha, setCaptcha] = useState(true);
+  // const [captcha, setCaptcha] = useState(true);
   //----------------------------------------------------------------
 
   const [emailValidation, setEmailValidation] = useState({
@@ -70,11 +70,12 @@ function Login() {
     setPasswordValidation({ err: false, msg: "" });
 
     //check captcha status
-    if (!captcha) {
-      return toast.error(
-        "Sorry, cloudflare detected you as a bot. Please try again from a known network."
-      );
-    }
+    // if (!captcha) {
+    //   return toast.error(
+    //     "Sorry, cloudflare detected you as a bot. Please try again from a known network."
+    //   );
+    // }
+
     //now start the login process.
     await loginHandler();
     return;
@@ -86,22 +87,15 @@ function Login() {
   // Effect for smooth transition wile the page renders and requests are made to the server.
   useEffect(() => {
     document.title = "Login | MyTodoApp";
-    if (!loading) return;
-    const loadingTimer = setTimeout(() => {
-      setLoading(false);
-    }, 0);
-    return () => {
-      clearTimeout(loadingTimer);
-    };
-  }, [loading]);
+  }, []);
 
   const loginHandler = async () => {
     setLoading(true);
     const loginOk = await login(username, password);
-    setLoading(false);
     if (loginOk) {
       return navigate("/dashboard");
     } else {
+      setLoading(false);
       return;
     }
   };
@@ -202,7 +196,7 @@ function Login() {
             </div>
           </fieldset>
 
-          <Turnstile
+          {/* <Turnstile
             siteKey="0x4AAAAAAAM7qlDAyv3bsg73"
             className="hidden"
             onSuccess={() => {
@@ -210,7 +204,7 @@ function Login() {
               setCaptcha(true);
             }}
             onExpire={() => setCaptcha(false)}
-          />
+          /> */}
 
           <button
             // onClick={loginHandler}

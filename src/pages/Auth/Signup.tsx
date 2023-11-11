@@ -47,7 +47,7 @@ function Signup() {
           <LoadingDialog />,
           document.getElementById("dialog") as HTMLElement
         )}
-      <section className="absolute left-0 top-0 w-screen h-screen bg-slate-200 flex justify-center">
+      <section className="absolute left-0 top-0 w-screen min-h-screen bg-slate-200 flex justify-center">
         <form
           onSubmit={async (e) => {
             e.preventDefault();
@@ -68,11 +68,12 @@ function Signup() {
             if (result.err) {
               toast.error(result.msg);
             } else {
-              toast.success("User signed up successfully.");
+              toast.success("Account created successfully.");
+              return navigate(`/auth/signup/success?email=${email}`);
             }
             return setLoading(false);
           }}
-          className="bg-white h-fit mt-5 p-12 w-1/3 min-w-fit rounded flex flex-col gap-2 text-center"
+          className="bg-white h-fit mt-5 p-8 w-1/3 min-w-[90vw] md:min-w-[60vw] xl:min-w-fit rounded flex flex-col gap-2 text-center"
         >
           <h1 className="font-bold text-3xl">Create an Account</h1>
           <span className="text-slate-500 -mt-2">
