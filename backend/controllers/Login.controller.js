@@ -45,7 +45,7 @@ export default async function LoginController(req, res) {
     );
 
     //save the token to database
-    const updatedUser = await UserModel.findOne(
+    const updatedUser = await UserModel.findOneAndUpdate(
       { email: existingUser.email },
       {
         token: token,
