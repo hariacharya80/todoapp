@@ -1,8 +1,9 @@
 import UserModel from "../models/user.model.js";
+import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import ValidateEmailPassword from "../helpers/ValidateEmailPassword.js";
-
+config(); //load env variables
 export default async function LoginController(req, res) {
   try {
     const { username, password } = req.body;
@@ -40,7 +41,7 @@ export default async function LoginController(req, res) {
         name: existingUser.name,
         email: existingUser.email,
       },
-      "thisisademo"
+      process.env.JWT_TOKEN.toString()
     );
 
     //send the token and success message
