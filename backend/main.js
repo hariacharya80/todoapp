@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import { config } from "dotenv";
 import AuthRouter from "./routes/AuthRoutes.js";
+import todoRouter from "./routes/TodoRoutes.js";
 import userModel from "./models/user.model.js";
 
 config();
@@ -34,6 +35,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/auth", AuthRouter);
+app.use("/todo", todoRouter);
 
 //connect to database and then start the server.
 
