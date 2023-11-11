@@ -80,11 +80,23 @@ function AuthProvider({ children }: AuthContextProviderProps) {
 
   const logout = async () => {
     //will write logout for the logout request
+    const request = await fetch(import.meta.env.VITE_BACKEND + "/auth/logout", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ token: authState.authToken }),
+    });
+    if (request.status === 200) {
+      toast.success("You have been logged out successfully.");
+    } else {
+      toast.error("You may not have been completely logged out.");
+    }
     setAuthState({
       signedIn: false,
       authToken: "",
     });
-    localStorage.clear();
+    return localStorage.clear();
   };
 
   return (
