@@ -16,6 +16,7 @@ import Notes from "./pages/Secure/Notes";
 import Meetings from "./pages/Secure/Meetings";
 import Account from "./pages/Secure/Account";
 import About from "./pages/Secure/About";
+import MobileMenu from "./components/MobileMenu";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -25,7 +26,6 @@ function App() {
       <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
-
         <Route
           path="/auth/login"
           element={
@@ -44,7 +44,6 @@ function App() {
             user.signedIn ? <Navigate to="/dashboard" replace /> : <Reset />
           }
         />
-
         <Route
           path="/dashboard"
           element={
@@ -58,6 +57,14 @@ function App() {
           element={
             <DashboardLayout>
               <Todo />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/menu"
+          element={
+            <DashboardLayout>
+              <MobileMenu />
             </DashboardLayout>
           }
         />

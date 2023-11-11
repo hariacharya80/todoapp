@@ -17,9 +17,9 @@ function SidebarButton({
 }: ButtonProps) {
   const navigate = useNavigate();
   const inactiveClass =
-    "bg-slate-200 p-2 rounded my-1 flex justify-start gap-2 items-center transition-all";
+    "bg-slate-200 w-full p-2 rounded my-1 flex justify-start gap-2 items-center transition-all";
   const activeClass =
-    "border-l-4 border-l-indigo-500 bg-indigo-200 p-2 rounded my-1  flex justify-start gap-2 items-center transition-all ";
+    "border-l-4 w-full border-l-indigo-500 bg-indigo-200 p-2 rounded my-1  flex justify-start gap-2 items-center transition-all ";
   return (
     <button
       onClick={() => {
