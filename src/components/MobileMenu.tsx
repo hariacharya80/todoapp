@@ -1,4 +1,4 @@
-import { FaAirFreshener, FaUserCircle, FaVideo } from "react-icons/fa";
+import { FaUserCircle, FaVideo } from "react-icons/fa";
 import { BiLogOutCircle, BiNotepad, BiSolidHome } from "react-icons/bi";
 import { LuListTodo } from "react-icons/lu";
 import { FaCircleInfo } from "react-icons/fa6";
