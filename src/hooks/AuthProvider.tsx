@@ -5,6 +5,7 @@ export const AuthContext = createContext({
   user: {
     signedIn: false,
     authToken: "",
+    user: "",
   },
   logout: async () => {},
   login: async (username: string, password: string) => {
@@ -29,6 +30,7 @@ function AuthProvider({ children }: AuthContextProviderProps) {
     authData || {
       signedIn: false,
       authToken: "",
+      user: "",
     }
   );
 
@@ -50,12 +52,14 @@ function AuthProvider({ children }: AuthContextProviderProps) {
         setAuthState({
           signedIn: true,
           authToken: data.authToken,
+          user: data.user,
         });
         localStorage.setItem(
           "_auth",
           JSON.stringify({
             signedIn: true,
             authToken: data.authToken,
+            user: data.user,
           })
         );
         return true;
@@ -101,6 +105,7 @@ function AuthProvider({ children }: AuthContextProviderProps) {
         user: {
           authToken: authState.authToken,
           signedIn: authState.signedIn,
+          user: authState.user,
         },
         login,
         logout,
