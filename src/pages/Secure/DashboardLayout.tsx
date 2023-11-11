@@ -22,15 +22,15 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
 
         {/* for mobile */}
         <section className="flex flex-col md:hidden min-h-screen max-h-screen h-screen">
-          <div className="absolute h-[90%] top-0 left-0 overflow-y-scroll p-2">
+          <div className="absolute h-[90%] w-screen top-0 left-0 overflow-y-scroll p-2">
             {children}
           </div>
           <BottomMenu />
         </section>
       </>
     );
-  }
-  {
+  } else {
+    console.log("Not logged in redirecting");
     return <Navigate to={"/auth/login"} replace />;
   }
 }

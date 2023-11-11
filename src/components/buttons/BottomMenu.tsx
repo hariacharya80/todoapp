@@ -27,8 +27,8 @@ function BottomMenuButton({
       }}
       className={name === currentMenu ? activeClass : inactiveClass}
     >
-      <span className="text-3xl">{icon}</span>
-      <span className="text-xl">{name}</span>
+      <span className="text-xl">{icon}</span>
+      <span className="text">{name}</span>
     </button>
   );
 }

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import toast from "react-hot-toast";
 
 export const AuthContext = createContext({
@@ -9,7 +9,7 @@ export const AuthContext = createContext({
   logout: async () => {},
   login: async (username: string, password: string) => {
     if (!username || !password) {
-      //I hate ts sometime cause I don't know it enough. LoL
+      //I hate TScript sometime cause I don't know it enough. LoL
     }
     return false;
   },
@@ -20,21 +20,17 @@ interface AuthContextProviderProps {
 }
 
 function AuthProvider({ children }: AuthContextProviderProps) {
-  const [authState, setAuthState] = useState({
-    signedIn: false,
-    authToken: "",
-  });
-
-  useEffect(() => {
-    const localData = localStorage.getItem("_auth");
-    if (localData) {
-      const authData = JSON.parse(localData);
-      setAuthState(authData);
-      return;
-    } else {
-      return;
+  const localData = localStorage.getItem("_auth");
+  let authData;
+  if (localData) {
+    authData = JSON.parse(localData);
+  }
+  const [authState, setAuthState] = useState(
+    authData || {
+      signedIn: false,
+      authToken: "",
     }
-  }, []);
+  );
 
   const login = async (username: string, password: string) => {
     //will write login for the login request
