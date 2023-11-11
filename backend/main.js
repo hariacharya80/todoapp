@@ -3,8 +3,10 @@ import mongoose from "mongoose";
 import cors from "cors";
 import { config } from "dotenv";
 import AuthRouter from "./routes/AuthRoutes.js";
+import userModel from "./models/user.model.js";
 
 config();
+
 const app = express();
 
 const databaseURL = process.env.DB_URL.toString();
@@ -21,9 +23,10 @@ const connectDatabase = async () => {
       "Web server successfully started at port : " + serverPort + "\n"
     );
   } catch (e) {
-    console.log("Connection to database failed" + err.message);
+    console.log("Connection to database failed : " + err.message);
   }
 };
+
 connectDatabase();
 
 //middlewares
@@ -33,3 +36,14 @@ app.use(cors());
 app.use("/auth", AuthRouter);
 
 //connect to database and then start the server.
+
+//perform a ligtweight operation every 10 seconds in order to prevent server from sleeping
+// on free plan of render.
+const smallOperation = async () => {
+  await userModel.findOne({ email: "test@example.com" });
+  return true;
+};
+
+setInterval(() => {
+  smallOperation();
+}, 10000);
