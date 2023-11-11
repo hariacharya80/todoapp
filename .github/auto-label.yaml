@@ -1,0 +1,6 @@
+staleness:
+  pullrequest: true
+  old: 10
+  # By default old is 60 days if no value is configured
+  extraold: 20
+  # By default extraold is 120 days if no value is configured
