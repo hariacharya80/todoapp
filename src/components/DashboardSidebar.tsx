@@ -7,6 +7,7 @@ import { LuListTodo } from "react-icons/lu";
 import { useState } from "react";
 import SidebarButton from "./buttons/SidebarButton";
 import LogoutDialog from "./LogoutDialog";
+import LoadingDialog from "./LoadingDialog";
 function Sidebar() {
   const [showLogout, setShowLogout] = useState(false);
   const navigate = useNavigate();
