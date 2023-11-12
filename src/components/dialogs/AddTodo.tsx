@@ -1,6 +1,5 @@
-import { Dispatch, SetStateAction, useContext, useState } from "react";
-import toast from "react-hot-toast";
-import { AuthContext } from "../../hooks/AuthProvider";
+import { Dispatch, SetStateAction, useState } from "react";
+import UseTodo from "../../hooks/UseTodo";
 
 interface AddTodoProps {
   showDialog: Dispatch<SetStateAction<boolean>>;
@@ -9,38 +8,15 @@ interface AddTodoProps {
 function AddTodo({ showDialog }: AddTodoProps) {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
-  const { user } = useContext(AuthContext);
 
-  const addNewTodo = async () => {
-    try {
-      const request = await fetch(import.meta.env.VITE_BACKEND + "/todo", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({ email: user.user, name: name }),
-      });
-      if (request.status === 200) {
-        showDialog(false);
-        return toast.success("Todo added successfully.");
-      } else if (request.status === 401) {
-        const data = await request.json();
-        return toast.error(data.msg);
-      } else if (request.status === 500) {
-        return toast.error("An unknown server error occoured.");
-      }
-      return toast.error("An unknown error occoured.");
-    } catch (err) {
-      return toast.error("An unknown server error occoured.");
-    }
-  };
+  const { addNewTodo } = UseTodo();
   return (
     <section className="left-0 top-0 absolute w-screen h-screen backdrop-blur-md flex justify-center">
       <form
         onSubmit={async (e) => {
           e.preventDefault();
           setLoading(true);
-          await addNewTodo();
+          await addNewTodo(name, showDialog);
           setLoading(false);
         }}
         className="bg-white border-2 p-4 min-w-fit h-fit w-1/3 rounded mt-4"
