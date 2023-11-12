@@ -5,14 +5,16 @@ import LogoutController from "../controllers/Logout.controller.js";
 import SendVerificationEmailController from "../controllers/SendVerificationEmail.controller.js";
 import sendResetEmail from "../controllers/SendResetEmail.controller.js";
 import VerifyEmailController from "../controllers/VerifyEmail.controller.js";
+import ResetPassword from "../controllers/RestPassword.controller.js";
 
 const AuthRouter = express.Router();
 
 AuthRouter.post("/login", LoginController);
 AuthRouter.post("/signup", SignupController);
 AuthRouter.post("/verify", SendVerificationEmailController);
-AuthRouter.put('/verify', VerifyEmailController)
+AuthRouter.put("/verify", VerifyEmailController);
 AuthRouter.post("/reset", sendResetEmail);
+AuthRouter.put("/reset", ResetPassword);
 AuthRouter.post("/logout", LogoutController);
 
 export default AuthRouter;
