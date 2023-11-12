@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import AddTodo from "../../components/dialogs/AddTodo";
-import { AuthContext } from "../../hooks/AuthProvider";
 import { FaEdit } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
+import UseTodo from "../../hooks/UseTodo";
+import EditTodo from "../../components/dialogs/EditTodo";
 
 interface todoItemTypes {
   name: string;
@@ -17,37 +17,32 @@ function Todo() {
   document.title = "Todo | MyTodoApp";
   const [todoList, setTodoList] = useState<todoItemTypes[]>([]);
   const [showAddTodoList, setShowAddTodoList] = useState(false);
+  const [showEditTodo, setShowEditTodo] = useState(false);
+  const [selectedTodo, setSelectedTodo] = useState({
+    name: "",
+    _id: "",
+  });
   const [fetching, setFetching] = useState(true);
   const [loading, setLoading] = useState("");
-  const { user } = useContext(AuthContext);
-
-  const loadTodoList = async () => {
-    const request = await fetch(import.meta.env.VITE_BACKEND + "/todo/get", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ email: user.user }),
-    });
-    if (request.status === 200) {
-      const data = await request.json();
-      return setTodoList(data.list);
-    } else if (request.status === 401) {
-      const data = await request.json();
-      return toast.error(data.msg);
-    }
-  };
+  const { getAllTodo } = UseTodo();
 
   useEffect(() => {
-    loadTodoList().then(() => {
+    getAllTodo(setTodoList).then(() => {
       setFetching(false);
     });
-  }, [showAddTodoList]);
+  }, [showAddTodoList, loading]);
+
+  const { markTodoComplete, markTodoIncomplete, deleteTodo } = UseTodo();
   return (
     <>
       {showAddTodoList &&
         ReactDOM.createPortal(
           <AddTodo showDialog={setShowAddTodoList} />,
+          document.getElementById("dialog") as HTMLElement
+        )}
+      {showEditTodo &&
+        ReactDOM.createPortal(
+          <EditTodo name={selectedTodo.name} showDialog={setShowEditTodo} />,
           document.getElementById("dialog") as HTMLElement
         )}
       <section>
@@ -105,16 +100,16 @@ function Todo() {
                   <div
                     key={todo._id}
                     className={
-                      loading == todo.name
+                      loading == todo._id
                         ? "bg-indigo-200 my-2 p-2  rounded w-full gap-2 flex justify-center items-center"
                         : "bg-slate-100 my-2 p-2  rounded flex justify-between items-center"
                     }
                   >
-                    {loading != todo.name && (
+                    {loading != todo._id && (
                       <>
                         <span
                           onClick={() => {
-                            setLoading(todo.name);
+                            // setLoading(todo.name);
                           }}
                           className="flex items-center gap-2"
                         >
@@ -126,21 +121,58 @@ function Todo() {
                                 ? "Make not completed"
                                 : "Make completed."
                             }
-                            defaultChecked={todo.completed}
+                            onChange={async () => {
+                              setLoading(todo._id);
+                              if (!todo.completed) {
+                                await markTodoComplete(todo._id);
+                                setLoading("");
+                              } else {
+                                await markTodoIncomplete(todo._id);
+                                setLoading("");
+                              }
+                            }}
+                            checked={todo.completed}
                           />
-                          <span className="text-md">{todo.name}</span>
+                          <span
+                            className={
+                              todo.completed
+                                ? "text-md line-through"
+                                : "text-md"
+                            }
+                          >
+                            {todo.name}
+                          </span>
                         </span>
                         <span className="flex gap-2">
-                          <button className="bg-indigo-500 text-white transition-colors p-2 rounded hover:bg-indigo-100 hover:text-black">
-                            <FaEdit />
-                          </button>
-                          <button className="bg-rose-500 text-white transition-colors p-2 rounded hover:bg-rose-100 hover:text-black">
+                          {!todo.completed && (
+                            <button
+                              onClick={() => {
+                                setSelectedTodo({
+                                  name: todo.name,
+                                  _id: todo._id,
+                                });
+                                setShowEditTodo(true);
+                              }}
+                              className="bg-indigo-500 text-white transition-colors p-2 rounded hover:bg-indigo-100 hover:text-black"
+                            >
+                              <FaEdit />
+                            </button>
+                          )}
+                          <button
+                            onClick={async () => {
+                              setLoading(todo._id);
+                              const ans = confirm("This task will be deleted.");
+                              if (ans) await deleteTodo(todo._id);
+                              setLoading("");
+                            }}
+                            className="bg-rose-500 text-white transition-colors p-2 rounded hover:bg-rose-100 hover:text-black"
+                          >
                             <AiFillDelete />
                           </button>
                         </span>
                       </>
                     )}
-                    {loading == todo.name && (
+                    {loading == todo._id && (
                       <>
                         <span>Updating, please wait... </span>
                         <div className="w-3 rounded-full h-3 border-2 border-black border-t-white animate-spin"></div>

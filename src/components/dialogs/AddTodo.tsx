@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import UseTodo from "../../hooks/UseTodo";
 
 interface AddTodoProps {
