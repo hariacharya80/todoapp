@@ -43,6 +43,7 @@ app.use("/todo", todoRouter);
 // on free plan of render.
 const smallOperation = async () => {
   await userModel.findOne({ email: "test@example.com" });
+  console.log("Server Alive");
   return true;
 };
 
