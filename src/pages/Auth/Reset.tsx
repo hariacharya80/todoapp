@@ -35,17 +35,19 @@ function Reset() {
   const validateNewPasswords = () => {
     if (!newPassword) {
       toast.error("New password can not be empty.");
-      return setPasswordValidation({
+      setPasswordValidation({
         err: true,
         msg: "New password can not be empty.",
       });
+      return false;
     }
     if (newPassword.length < 8) {
       toast.error("New password must be at least 8 characters.");
-      return setPasswordValidation({
+      setPasswordValidation({
         err: true,
         msg: "New password must be at least 8 characters long.",
       });
+      return false;
     }
     if (newPassword !== confirmPassword) {
       toast.error("Confirmation password do not match.");
@@ -53,18 +55,22 @@ function Reset() {
         err: true,
         msg: "Confirmation password do not match.",
       });
+      return false;
     }
+    return true;
   };
 
   const handlePasswordChange = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    validateNewPasswords();
     if (!token) {
       setLoading(false);
       return toast.error("Error with your token, request a new reset link.");
     }
-    await setNewPasswordWithToken(token, confirmPassword);
+    const isValid = validateNewPasswords();
+    if (isValid) {
+      await setNewPasswordWithToken(token, confirmPassword);
+    } else return setLoading(false);
     setLoading(false);
   };
 
