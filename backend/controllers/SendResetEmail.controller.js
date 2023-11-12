@@ -32,6 +32,7 @@ export default async function sendResetEmail(req, res) {
       .status(200)
       .json({ msg: "Password reset email sent successfully." });
   } catch (e) {
+    console.log(e)
     return res.status(500).json({ msg: "An unknown server error occoured." });
   }
 }
