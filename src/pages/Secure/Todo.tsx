@@ -121,6 +121,11 @@ function Todo() {
                           <input
                             className="scale-150"
                             type="checkbox"
+                            title={
+                              todo.completed
+                                ? "Make not completed"
+                                : "Make completed."
+                            }
                             defaultChecked={todo.completed}
                           />
                           <span className="text-md">{todo.name}</span>
