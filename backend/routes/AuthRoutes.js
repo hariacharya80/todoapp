@@ -11,8 +11,9 @@ const AuthRouter = express.Router();
 AuthRouter.post("/login", LoginController);
 AuthRouter.post("/signup", SignupController);
 AuthRouter.post("/verify", SendVerificationEmailController);
-AuthRouter.put('/verify', VerifyEmailController)
+AuthRouter.put("/verify", VerifyEmailController);
 AuthRouter.post("/reset", sendResetEmail);
+AuthRouter.put("/reset");
 AuthRouter.post("/logout", LogoutController);
 
 export default AuthRouter;

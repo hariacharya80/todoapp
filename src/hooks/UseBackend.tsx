@@ -90,7 +90,7 @@ function UseBackend() {
         }
       );
       if (request.status == 200) {
-        toast.success('Your email is now verified, you can proceed to login.')
+        toast.success("Your email is now verified, you can proceed to login.");
         return true;
       } else if (request.status == 401) {
         const data = await request.json();
@@ -154,7 +154,47 @@ function UseBackend() {
       return false;
     }
   };
-  return { signup, sendEmailVerification, verifyEmailFromToken, resetPassword };
+
+  const setNewPasswordWithToken = async (token: string, password: string) => {
+    try {
+      const request = await fetch(
+        import.meta.env.VITE_BACKEND + "/auth/reset",
+        {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            token,
+            password,
+          }),
+        }
+      );
+      if (request.status === 200) {
+        toast.success("Password changed successfully.");
+        return true;
+      } else if (request.status === 401) {
+        const data = await request.json();
+        toast.error(data.msg);
+        return false;
+      } else if (request.status == 500) {
+        toast.error("An unknown server error, please try again later.");
+        return false;
+      }
+      toast.error("An unknown error occoured.");
+      return false;
+    } catch (e) {
+      toast.error("An unknown network error.");
+      return false;
+    }
+  };
+  return {
+    signup,
+    sendEmailVerification,
+    verifyEmailFromToken,
+    resetPassword,
+    setNewPasswordWithToken,
+  };
 }
 
 export default UseBackend;

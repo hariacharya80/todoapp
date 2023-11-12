@@ -1,6 +1,5 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import LoadingDialog from "../../components/LoadingDialog";
 import UseBackend from "../../hooks/UseBackend";
 import toast from "react-hot-toast";
 
@@ -31,6 +30,8 @@ function Reset() {
     msg: "",
   });
 
+  const { setNewPasswordWithToken } = UseBackend();
+
   const validateNewPasswords = () => {
     if (!newPassword) {
       toast.error("New password can not be empty.");
@@ -59,6 +60,12 @@ function Reset() {
     e.preventDefault();
     setLoading(true);
     validateNewPasswords();
+    if (!token) {
+      setLoading(false);
+      return toast.error("Error with your token, request a new reset link.");
+    }
+    await setNewPasswordWithToken(token, confirmPassword);
+    setLoading(false);
   };
 
   return (
