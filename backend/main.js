@@ -43,8 +43,10 @@ app.use("/todo", todoRouter);
 // on free plan of render.
 const smallOperation = async () => {
   await userModel.findOne({ email: "test@example.com" });
-  console.log("Server Alive");
-  return true;
+  //let's self ping too..
+  const request = await fetch("https://todo-app-server-86yy.onrender.com/");
+  console.log("self ping reports: " + request.status);
+  return request;
 };
 
 setInterval(() => {
