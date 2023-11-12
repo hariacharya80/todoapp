@@ -49,7 +49,7 @@ function UseBackend() {
   const sendEmailVerification = async (email: string) => {
     try {
       const request = await fetch(
-        import.meta.env.VITE_BACKEND + "/auth/sendEmailVerification",
+        import.meta.env.VITE_BACKEND + "/auth/verify",
         {
           method: "POST",
           headers: {
@@ -80,9 +80,9 @@ function UseBackend() {
   const verifyEmailFromToken = async (token: string) => {
     try {
       const request = await fetch(
-        import.meta.env.VITE_BACKEND + "/auth/verifyEmail",
+        import.meta.env.VITE_BACKEND + "/auth/verify",
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             "content-type": "application/json",
           },
@@ -90,6 +90,7 @@ function UseBackend() {
         }
       );
       if (request.status == 200) {
+        toast.success('Your email is now verified, you can proceed to login.')
         return true;
       } else if (request.status == 401) {
         const data = await request.json();
@@ -124,7 +125,7 @@ function UseBackend() {
     }
     try {
       const request = await fetch(
-        import.meta.env.VITE_BACKEND + "/auth/resetPassword",
+        import.meta.env.VITE_BACKEND + "/auth/reset",
         {
           method: "post",
           headers: {

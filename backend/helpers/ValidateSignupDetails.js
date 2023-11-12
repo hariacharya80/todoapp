@@ -3,7 +3,6 @@ export default function validateSignupDetails(email, password, name) {
     return { err: true, msg: "Name of user is required." };
   }
   //validate email
-  console.log(email);
   if (!email) {
     return { err: true, msg: "Please enter your email address." };
   }

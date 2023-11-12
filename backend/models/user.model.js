@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
   level: {
     type: Number,
   },
+  verified: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 const userModel = mongoose.model("User_Account", userSchema, "User_Account");
