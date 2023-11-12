@@ -28,11 +28,18 @@ export default async function sendResetEmail(req, res) {
       process.env.JWT_TOKEN.toString()
     );
     await sendVerificationLink(email, token, "password");
+    const updatedUser = await userModel.findOneAndUpdate(
+      { email: email },
+      {
+        mailedToken: token,
+      }
+    );
+    await updatedUser.save();
     return res
       .status(200)
       .json({ msg: "Password reset email sent successfully." });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return res.status(500).json({ msg: "An unknown server error occoured." });
   }
 }
