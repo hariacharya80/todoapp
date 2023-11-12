@@ -21,7 +21,7 @@ export default async function (req, res) {
       .status(200)
       .json({ msg: "Verification Email sent successfully." });
   } catch (e) {
-    Console.error(e);
+    console.error(e);
     return res.status(500).json({ msg: "An unknown server error occoured." });
   }
 }
