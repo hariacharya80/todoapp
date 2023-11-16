@@ -30,7 +30,7 @@ function Todo() {
     getAllTodo(setTodoList).then(() => {
       setFetching(false);
     });
-  }, [showAddTodoList, loading]);
+  }, [showAddTodoList, loading, showEditTodo]);
 
   const { markTodoComplete, markTodoIncomplete, deleteTodo } = UseTodo();
   return (
@@ -42,7 +42,11 @@ function Todo() {
         )}
       {showEditTodo &&
         ReactDOM.createPortal(
-          <EditTodo name={selectedTodo.name} showDialog={setShowEditTodo} />,
+          <EditTodo
+            _id={selectedTodo._id}
+            name={selectedTodo.name}
+            showDialog={setShowEditTodo}
+          />,
           document.getElementById("dialog") as HTMLElement
         )}
       <section>
