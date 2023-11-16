@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import AddNotes from "../../components/dialogs/AddNotes";
 import UseNotes from "../../hooks/UseNotes";
-import toast from "react-hot-toast";
 interface notesType {
   title: string;
   createdAt: string;
@@ -20,7 +19,8 @@ function Notes() {
   useEffect(() => {
     getNotesList().then((value) => {
       if (value.ok) {
-        setNotesList(value.data);
+        setNotesList(value.data.notes);
+        console.log(value.data.notes);
       } else {
         setNetworkError(true);
       }
@@ -94,6 +94,12 @@ function Notes() {
               </button>
             </div>
           </section>
+        )}
+        {!loading && !networkError && notesList.length > 0 && (
+          <>
+            <h1>Hello world</h1>
+            {/*TODO: Rendering notes here */}
+          </>
         )}
       </section>
     </>
