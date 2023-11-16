@@ -27,12 +27,11 @@ export async function removeTodo(req, res) {
 }
 export async function updateTodo(req, res) {
   try {
-    const { _id, name, completed } = req.body;
+    const { _id, name } = req.body;
     const updatedTodo = await todoModel.findOneAndUpdate(
       { _id },
       {
         name: name,
-        completed: completed,
       }
     );
     if (!updatedTodo) {

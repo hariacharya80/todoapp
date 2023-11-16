@@ -10,9 +10,11 @@ config();
 
 const app = express();
 
+const deploy = process.env.DEPLOY.toString().toLowerCase();
 const databaseURL = process.env.DB_URL.toString();
 const serverPort = process.env.PORT.toString() || 80;
 
+console.log(`\nServer started in ${deploy.toString()} mode.\n`);
 const connectDatabase = async () => {
   console.log("Connecting to database..");
   try {
@@ -48,7 +50,8 @@ const smallOperation = async () => {
   console.log("self ping reports: " + request.status);
   return request;
 };
-
-setInterval(() => {
-  smallOperation();
-}, 10000);
+if (deploy == "production") {
+  setInterval(() => {
+    smallOperation();
+  }, 10000);
+}

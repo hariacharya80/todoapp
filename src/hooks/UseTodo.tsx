@@ -139,9 +139,36 @@ function UseTodo() {
       return false;
     }
   };
+  const updateTodo = async (id: string, name: string) => {
+    //do something here to update the todo
+    const request = await fetch(import.meta.env.VITE_BACKEND + "/todo", {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        _id: id,
+        name,
+      }),
+    });
+    if (request.status === 200) {
+      toast.success("Todo updated successfully.");
+      return true;
+    } else if (request.status == 401) {
+      const data = await request.json();
+      toast.error(data.msg);
+      return true;
+    } else if (request.status == 500) {
+      toast.error("An unknown internal server error occoured.");
+      return false;
+    }
+    toast.error("An unknown error while updating todo.");
+    return false;
+  };
   return {
     addNewTodo,
     getAllTodo,
+    updateTodo,
     markTodoComplete,
     markTodoIncomplete,
     deleteTodo,
