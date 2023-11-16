@@ -5,6 +5,7 @@ import { config } from "dotenv";
 import AuthRouter from "./routes/AuthRoutes.js";
 import todoRouter from "./routes/TodoRoutes.js";
 import userModel from "./models/user.model.js";
+import NotesRouter from "./routes/NotesRoutes.js";
 
 config();
 
@@ -38,6 +39,7 @@ app.use(cors());
 
 app.use("/auth", AuthRouter);
 app.use("/todo", todoRouter);
+app.use("/notes", NotesRouter);
 
 //connect to database and then start the server.
 
