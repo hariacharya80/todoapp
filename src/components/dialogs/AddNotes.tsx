@@ -38,6 +38,8 @@ function AddNotes({ showDialog }: AddNotesProps) {
           </label>
           <input
             type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             disabled={loading}
             name="title"
             id="title"
@@ -51,6 +53,8 @@ function AddNotes({ showDialog }: AddNotesProps) {
           <textarea
             required
             name="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
             disabled={loading}
             id="content"
             placeholder={`Developers have spent a great deal of time talking about what React is. But they have left out why this topic matters so greatly for anyone who builds React applications.
